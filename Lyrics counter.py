@@ -2,23 +2,30 @@ import plotly
 from plotly.offline import init_notebook_mode
 import plotly.graph_objs as go
 import bs4 as bs
-import urllib.request
+from urllib.request import Request, urlopen
 import random
 import operator
 import collections
 import time
-import os
 
 
-def url_parse(url):
-    req = urllib.request.urlopen(url).read()
-    resp = bs.BeautifulSoup(req, features="lxml")
-    for para in resp.find_all('div', attrs={'class': 'holder lyric-box'}):
-        return para.text
+def url_parse(url1):
+    hdr = {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+        'Accept-Encoding': 'none',
+        'Accept-Language': 'en-US,en;q=0.8',
+        'Connection': 'keep-alive'}
+    req = Request(url=url1, headers=hdr)
+    wb = urlopen(req).read()
+    resp = bs.BeautifulSoup(wb, 'html.parser')
+    para = resp.find('div', attrs={'class': 'holder lyric-box'})
+    return para.text
 
 
 def file_writer(text):
-    with open('C:/Users/' + os.getlogin() + '/Desktop/rSong.txt', 'w') as f:
+    with open('C:/Users/ACER/Desktop/rSong.txt', 'w') as f:
         for line in text:
             f.write(line)
 
@@ -30,7 +37,7 @@ def starting_url():
 
 
 def file_reader():
-    fo = open("C:/Users/' + os.getlogin() + /Desktop/rSong.txt", "r")
+    fo = open("C:/Users/ACER/Desktop/rSong.txt", "r")
     lyric_list = []
     with fo:
         for line in fo:
@@ -55,7 +62,6 @@ def dict_sort(ly, uw):
         sorted_h.pop()
         sorted_h.pop()
     random.shuffle(sorted_h)
-
     histogram_sorted = collections.OrderedDict(sorted_h)
     return histogram_sorted
 
