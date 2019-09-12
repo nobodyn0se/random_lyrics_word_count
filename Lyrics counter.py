@@ -7,6 +7,7 @@ import random
 import operator
 import collections
 import time
+import os
 
 
 def url_parse(url):
@@ -17,7 +18,7 @@ def url_parse(url):
 
 
 def file_writer(text):
-    with open('C:/Users/ACER/Desktop/rSong.txt', 'w') as f:
+    with open('C:/Users/' + os.getlogin() + '/Desktop/rSong.txt', 'w') as f:
         for line in text:
             f.write(line)
 
@@ -29,7 +30,7 @@ def starting_url():
 
 
 def file_reader():
-    fo = open("C:/Users/ACER/Desktop/rSong.txt", "r")
+    fo = open("C:/Users/' + os.getlogin() + /Desktop/rSong.txt", "r")
     lyric_list = []
     with fo:
         for line in fo:
@@ -111,6 +112,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# trace = {'type': 'scatter', 'x': list(uw), 'y': list(histogram_sorted.values())}
-# plotly.offline.plot({'data': [trace]})
